@@ -21,7 +21,7 @@ export function CampaignReadinessChecker({ locale, dictionary }: { locale: Local
       <section className="form-card">
         <h2>{dictionary.campaign.title}</h2>
         <p>{dictionary.campaign.intro}</p>
-        {dictionary.campaign.questions.map((question, index) => (
+        {dictionary.campaign.questions.map((question: string, index: number) => (
           <fieldset key={question}>
             <legend>{question}</legend>
             {(["yes", "partial", "no"] as AnswerValue[]).map((answer) => (
@@ -43,7 +43,7 @@ export function CampaignReadinessChecker({ locale, dictionary }: { locale: Local
           {result.weakIndexes.length ? result.weakIndexes.map((index) => <li key={index}>{dictionary.campaign.questions[index]}</li>) : <li>{dictionary.campaign.verdicts.ready}</li>}
         </ul>
         <h3>{dictionary.campaign.checklistTitle}</h3>
-        <ul>{dictionary.campaign.actions[result.band].map((action) => <li key={action}>{action}</li>)}</ul>
+        <ul>{dictionary.campaign.actions[result.band].map((action: string) => <li key={action}>{action}</li>)}</ul>
         <Link className="button" href={siteConfig.purchaseUrls.campaignReadiness} target="_blank" rel="noreferrer">{dictionary.products.campaignReadiness.button}</Link>
       </section>
     </div>
