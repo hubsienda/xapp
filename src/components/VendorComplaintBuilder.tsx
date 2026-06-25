@@ -52,6 +52,8 @@ export function VendorComplaintBuilder({ locale, dictionary }: { locale: Locale;
   const [form, setForm] = useState<FormState>({ vendorName: "", productName: "", purchaseDate: "", promised: "", wrong: "", outcome: "correction", tone: "firm", problems: [] });
   const [output, setOutput] = useState<{ subject: string; body: string } | null>(null);
   const [copied, setCopied] = useState(false);
+  const outcomeOptions = Object.entries(dictionary.complaint.outcomes) as Array<[Outcome, string]>;
+  const toneOptions = Object.entries(dictionary.complaint.tones) as Array<[Tone, string]>;
 
   function update<K extends keyof FormState>(key: K, value: FormState[K]) {
     setForm((current) => ({ ...current, [key]: value }));
@@ -102,7 +104,7 @@ export function VendorComplaintBuilder({ locale, dictionary }: { locale: Locale;
         </div>
         <fieldset>
           <legend>{dictionary.complaint.wrong}</legend>
-          {dictionary.complaint.problemOptions.map((problem) => (
+          {dictionary.complaint.problemOptions.map((problem: string) => (
             <label className="check-row" key={problem}>
               <input type="checkbox" checked={form.problems.includes(problem)} onChange={() => toggleProblem(problem)} />
               <span>{problem}</span>
@@ -117,13 +119,13 @@ export function VendorComplaintBuilder({ locale, dictionary }: { locale: Locale;
           <div className="field">
             <label htmlFor="outcome">{dictionary.complaint.desiredOutcome}</label>
             <select id="outcome" value={form.outcome} onChange={(event) => update("outcome", event.target.value as Outcome)}>
-              {Object.entries(dictionary.complaint.outcomes).map(([key, label]) => <option key={key} value={key}>{label}</option>)}
+              {outcomeOptions.map(([key, label]) => <option key={key} value={key}>{label}</option>)}
             </select>
           </div>
           <div className="field">
             <label htmlFor="tone">{dictionary.complaint.tone}</label>
             <select id="tone" value={form.tone} onChange={(event) => update("tone", event.target.value as Tone)}>
-              {Object.entries(dictionary.complaint.tones).map(([key, label]) => <option key={key} value={key}>{label}</option>)}
+              {toneOptions.map(([key, label]) => <option key={key} value={key}>{label}</option>)}
             </select>
           </div>
         </div>
@@ -142,7 +144,7 @@ export function VendorComplaintBuilder({ locale, dictionary }: { locale: Locale;
               <Link className="button secondary" href={siteConfig.purchaseUrls.vendorComplaint} target="_blank" rel="noreferrer">{dictionary.products.vendorComplaint.button}</Link>
             </div>
             <h3>{dictionary.complaint.evidenceTitle}</h3>
-            <ul>{dictionary.complaint.evidenceItems.map((item) => <li key={item}>{item}</li>)}</ul>
+            <ul>{dictionary.complaint.evidenceItems.map((item: string) => <li key={item}>{item}</li>)}</ul>
           </>
         ) : null}
       </section>
