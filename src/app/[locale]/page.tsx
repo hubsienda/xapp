@@ -29,7 +29,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           <h1>{d.home.headline}</h1>
           <p className="lede">{d.home.subheading}</p>
           <ul className="problem-list" aria-label="Problems">
-            {d.home.problemPoints.map((point) => (
+            {d.home.problemPoints.map((point: string) => (
               <li key={point}>{point}</li>
             ))}
           </ul>
@@ -64,7 +64,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         <h2>{d.home.privacyTitle}</h2>
         <p>{d.home.privacyLine}</p>
         <div className="grid" style={{ marginTop: 18 }}>
-          {d.home.privacyBullets.map((item) => (
+          {d.home.privacyBullets.map((item: string) => (
             <div className="stat" key={item}>{item}</div>
           ))}
         </div>
