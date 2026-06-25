@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import { siteConfig } from "@/config/site";
+import { ToolkitCtas } from "@/components/ToolPageSections";
 import type { Dictionary } from "@/i18n/dictionaries";
 import type { Locale } from "@/i18n/locales";
+import { getToolPageContent } from "@/i18n/toolPageContent";
 
 type Tone = "polite" | "firm" | "veryFirm";
 type Outcome = "correction" | "replacement" | "refund" | "explanation" | "escalation";
@@ -49,6 +49,7 @@ function buildEmail(locale: Locale, dictionary: Dictionary, form: FormState) {
 }
 
 export function VendorComplaintBuilder({ locale, dictionary }: { locale: Locale; dictionary: Dictionary }) {
+  const content = getToolPageContent(locale).vendorComplaint;
   const [form, setForm] = useState<FormState>({ vendorName: "", productName: "", purchaseDate: "", promised: "", wrong: "", outcome: "correction", tone: "firm", problems: [] });
   const [output, setOutput] = useState<{ subject: string; body: string } | null>(null);
   const [copied, setCopied] = useState(false);
@@ -80,10 +81,11 @@ export function VendorComplaintBuilder({ locale, dictionary }: { locale: Locale;
   }
 
   return (
-    <div className="two-column section">
+    <div className="two-column section tool-workspace">
       <section className="form-card">
+        <p className="eyebrow">{content.actionTitle}</p>
         <h2>{dictionary.complaint.title}</h2>
-        <p>{dictionary.complaint.intro}</p>
+        <p>{content.instructions}</p>
         <div className="form-grid">
           <div className="field">
             <label htmlFor="vendor-name">{dictionary.complaint.vendorName}</label>
@@ -133,7 +135,7 @@ export function VendorComplaintBuilder({ locale, dictionary }: { locale: Locale;
       </section>
 
       <section className="result" aria-live="polite">
-        {!output ? <p>{dictionary.common.noFileYet}</p> : null}
+        {!output ? <p className="empty-state">{content.emptyState}</p> : null}
         {output ? (
           <>
             <h2>{dictionary.complaint.outputTitle}</h2>
@@ -141,10 +143,10 @@ export function VendorComplaintBuilder({ locale, dictionary }: { locale: Locale;
             <pre className="output">{output.body}</pre>
             <div className="button-row">
               <button type="button" className="primary" onClick={() => void copyOutput()}>{copied ? dictionary.common.copied : dictionary.common.copy}</button>
-              <Link className="button secondary" href={siteConfig.purchaseUrls.vendorComplaint} target="_blank" rel="noreferrer">{dictionary.products.vendorComplaint.button}</Link>
             </div>
             <h3>{dictionary.complaint.evidenceTitle}</h3>
-            <ul>{dictionary.complaint.evidenceItems.map((item: string) => <li key={item}>{item}</li>)}</ul>
+            <ul className="clean-list">{dictionary.complaint.evidenceItems.map((item: string) => <li key={item}>{item}</li>)}</ul>
+            <ToolkitCtas dictionary={dictionary} content={content} />
           </>
         ) : null}
       </section>
