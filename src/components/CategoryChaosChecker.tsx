@@ -3,11 +3,11 @@
 import Papa from "papaparse";
 import * as XLSX from "xlsx";
 import { useMemo, useState } from "react";
-import Link from "next/link";
 import { ScoreBlock } from "@/components/ScoreBlock";
-import { siteConfig } from "@/config/site";
+import { ToolkitCtas } from "@/components/ToolPageSections";
 import type { Dictionary } from "@/i18n/dictionaries";
 import type { Locale } from "@/i18n/locales";
+import { getToolPageContent } from "@/i18n/toolPageContent";
 import { analyseCategoryChaos, splitCategoryInput, type CategoryChaosResult } from "@/lib/categoryChaos";
 import { detectColumns, getHeaders, type RowData, valueOf } from "@/lib/fieldMapping";
 
@@ -24,10 +24,11 @@ async function parseFile(file: File): Promise<RowData[]> {
     const worksheet = workbook.Sheets[workbook.SheetNames[0]];
     return XLSX.utils.sheet_to_json<RowData>(worksheet, { defval: "" });
   }
-  throw new Error("Unsupported file type");
+  throw new Error("unsupported");
 }
 
 export function CategoryChaosChecker({ locale, dictionary }: { locale: Locale; dictionary: Dictionary }) {
+  const content = getToolPageContent(locale).categoryChaos;
   const [rows, setRows] = useState<RowData[]>([]);
   const [headers, setHeaders] = useState<string[]>([]);
   const [selectedColumn, setSelectedColumn] = useState<string>("");
@@ -44,30 +45,51 @@ export function CategoryChaosChecker({ locale, dictionary }: { locale: Locale; d
     setError("");
     setResult(null);
     if (!file) return;
+    if (!file.name.toLowerCase().endsWith(".csv") && !file.name.toLowerCase().endsWith(".xlsx")) {
+      setError(content.errors.unsupportedFile);
+      return;
+    }
     try {
       const parsed = await parseFile(file);
       const parsedHeaders = getHeaders(parsed);
+      if (!parsedHeaders.length) {
+        setError(content.errors.noReadableRows);
+        return;
+      }
       setRows(parsed);
       setHeaders(parsedHeaders);
       const detected = detectColumns(parsedHeaders);
       setSelectedColumn(detected.category ?? detected.industry ?? "");
     } catch {
-      setError("The file could not be read. Use a CSV or XLSX file with a clear header row.");
+      setError(content.errors.readError);
     }
   }
 
   function analyse() {
+    setError("");
     const values = pasted.trim()
       ? splitCategoryInput(pasted)
       : rows.map((row) => valueOf(row, selectedColumn || autoDetected)).filter(Boolean);
+
+    if (!pasted.trim() && rows.length > 0 && !(selectedColumn || autoDetected)) {
+      setError(content.errors.noCategoryColumn);
+      return;
+    }
+
+    if (!values.length) {
+      setError(content.errors.noCategoryInput);
+      return;
+    }
+
     setResult(analyseCategoryChaos(values));
   }
 
   return (
-    <div className="two-column section">
+    <div className="two-column section tool-workspace">
       <section className="form-card">
+        <p className="eyebrow">{content.actionTitle}</p>
         <h2>{dictionary.category.title}</h2>
-        <p>{dictionary.category.intro}</p>
+        <p>{content.instructions}</p>
         <p className="notice">{dictionary.common.filePrivacy}</p>
         <div className="field">
           <label htmlFor="category-file">{dictionary.common.chooseFile}</label>
@@ -92,24 +114,24 @@ export function CategoryChaosChecker({ locale, dictionary }: { locale: Locale; d
       </section>
 
       <section className="result" aria-live="polite">
-        {!result ? <p>{dictionary.common.noFileYet}</p> : null}
+        {!result ? <p className="empty-state">{content.emptyState}</p> : null}
         {result ? (
           <>
             <ScoreBlock label={dictionary.category.scoreTitle} score={result.score} />
             <h2>{dictionary.category.verdicts[result.band]}</h2>
-            <div className="stat-grid">
+            <div className="stat-grid compact-stats">
               <div className="stat"><strong>{result.totalEntries}</strong>{dictionary.common.rows}</div>
               <div className="stat"><strong>{result.uniqueCategories}</strong>{dictionary.category.uniqueCategories}</div>
               <div className="stat"><strong>{Math.round(result.fragmentationRatio * 100)}%</strong>{dictionary.category.fragmentation}</div>
               <div className="stat"><strong>{result.multiLabelCells}</strong>{dictionary.category.separatedLabels}</div>
             </div>
             <h3>{dictionary.category.repeated}</h3>
-            <ul>{result.topRepeated.length ? result.topRepeated.map((item) => <li key={item.label}>{item.label}: {item.count}</li>) : <li>{dictionary.category.verdicts.low}</li>}</ul>
+            <ul className="clean-list">{result.topRepeated.length ? result.topRepeated.map((item) => <li key={item.label}>{item.label}: {item.count}</li>) : <li>{dictionary.category.verdicts.low}</li>}</ul>
             <h3>{dictionary.category.inconsistent}</h3>
-            <ul>{result.inconsistentExamples.length ? result.inconsistentExamples.map((item) => <li key={item}>{item}</li>) : <li>{dictionary.category.verdicts.low}</li>}</ul>
+            <ul className="clean-list">{result.inconsistentExamples.length ? result.inconsistentExamples.map((item) => <li key={item}>{item}</li>) : <li>{dictionary.category.verdicts.low}</li>}</ul>
             <h3>{dictionary.common.recommendedActions}</h3>
-            <ul>{dictionary.category.actions[result.band].map((action) => <li key={action}>{action}</li>)}</ul>
-            <Link className="button" href={siteConfig.purchaseUrls.categoryCleanup} target="_blank" rel="noreferrer">{dictionary.products.categoryCleanup.button}</Link>
+            <ul className="clean-list">{dictionary.category.actions[result.band].map((action) => <li key={action}>{action}</li>)}</ul>
+            <ToolkitCtas dictionary={dictionary} content={content} />
           </>
         ) : null}
       </section>
