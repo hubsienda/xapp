@@ -1,0 +1,6 @@
+Company Name,Email,Website,Phone,Country,City,Postcode,Category,Source
+Acme Windows Ltd,hello@acme-windows.example.com,https://acme-windows.example.com,+440000000001,United Kingdom,Leeds,LS1,Window manufacturer,Sample
+Northbridge Packaging,info@northbridge-packaging.example.com,northbridge-packaging.example.com,+440000000002,United Kingdom,Manchester,M1,Packaging supplier,Sample
+Example Food Traders,bad-email,example-food-traders.example.com,,United Kingdom,,EC1,Food; wholesale,Sample
+Acme Windows Ltd,hello@acme-windows.example.com,https://acme-windows.example.com,+440000000001,United Kingdom,Leeds,LS1,window Manufacturer,Sample
+Blankish Company,,,,,,,Other,Sample
