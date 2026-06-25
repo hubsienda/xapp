@@ -45,7 +45,7 @@ export function CampaignReadinessChecker({ locale, dictionary }: { locale: Local
         ))}
         <div className="button-row">
           <button className="primary" type="button" onClick={() => setSubmitted(true)}>{content.labels?.submit ?? dictionary.common.analyse}</button>
-          <button className="secondary" type="button" onClick={resetAnswers}>{content.labels?.reset ?? "Reset"}</button>
+          <button className="button secondary" type="button" onClick={resetAnswers}>{content.labels?.reset ?? "Reset"}</button>
         </div>
       </section>
 
