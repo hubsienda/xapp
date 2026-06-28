@@ -27,7 +27,7 @@ export default async function VendorComplaintPage({ params }: { params: Promise<
     <main className="main">
       <ToolPageHero content={content} />
       <VendorComplaintBuilder locale={safeLocale} dictionary={d} />
-      <ToolPageSections dictionary={d} content={content} />
+      <ToolPageSections locale={safeLocale} dictionary={d} content={content} />
     </main>
   );
 }
