@@ -27,7 +27,7 @@ export default async function CampaignReadinessPage({ params }: { params: Promis
     <main className="main">
       <ToolPageHero content={content} />
       <CampaignReadinessChecker locale={safeLocale} dictionary={d} />
-      <ToolPageSections dictionary={d} content={content} />
+      <ToolPageSections locale={safeLocale} dictionary={d} content={content} />
     </main>
   );
 }
