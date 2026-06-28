@@ -21,22 +21,23 @@ export default async function ToolkitsPage({ params }: { params: Promise<{ local
   const d = getDictionary(safeLocale);
 
   return (
-    <main className="main">
+    <main className="main readable-page">
       <p className="eyebrow">{siteConfig.name}</p>
       <h1>{d.toolkits.heading}</h1>
       <p className="lede">{d.toolkits.intro}</p>
       <p className="notice section">{d.toolkits.bundleNote}</p>
-      <section className="product-grid section">
+      <section className="product-grid section two-product-grid">
         {productKeys.map((key) => {
           const product = d.products[key];
-          const url = siteConfig.purchaseUrls[key];
+          const url = siteConfig.purchaseUrls[safeLocale][key];
           return (
-            <article className="card" key={key}>
+            <article className="card product-card" key={key}>
+              <p className="badge">{product.price}</p>
               <h2>{product.name}</h2>
+              <p className="product-subtitle">{product.subtitle}</p>
               <p>{product.description}</p>
               <p><strong>{product.forWhom}</strong></p>
               <p>{product.includes}</p>
-              <p className="badge">{product.price}</p>
               <Link className="button" href={url} target="_blank" rel="noreferrer">
                 {product.button}
               </Link>
