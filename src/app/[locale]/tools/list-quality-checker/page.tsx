@@ -27,7 +27,7 @@ export default async function ListQualityPage({ params }: { params: Promise<{ lo
     <main className="main">
       <ToolPageHero content={content} />
       <ListQualityChecker locale={safeLocale} dictionary={d} />
-      <ToolPageSections dictionary={d} content={content} />
+      <ToolPageSections locale={safeLocale} dictionary={d} content={content} />
     </main>
   );
 }
