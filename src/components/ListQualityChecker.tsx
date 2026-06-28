@@ -4,7 +4,6 @@ import Papa from "papaparse";
 import * as XLSX from "xlsx";
 import { useState } from "react";
 import { ScoreBlock } from "@/components/ScoreBlock";
-import { ToolkitCtas } from "@/components/ToolPageSections";
 import type { Dictionary, RoleKey } from "@/i18n/dictionaries";
 import type { Locale } from "@/i18n/locales";
 import { getToolPageContent } from "@/i18n/toolPageContent";
@@ -72,10 +71,9 @@ export function ListQualityChecker({ locale, dictionary }: { locale: Locale; dic
   }
 
   return (
-    <div className="two-column section tool-workspace">
-      <section className="form-card">
+    <section className="section tool-workspace">
+      <div className="form-card">
         <p className="eyebrow">{content.actionTitle}</p>
-        <h2>{dictionary.listQuality.title}</h2>
         <p>{content.instructions}</p>
         <p className="notice">{dictionary.common.filePrivacy}</p>
         <div className="field">
@@ -85,9 +83,9 @@ export function ListQualityChecker({ locale, dictionary }: { locale: Locale; dic
         {fileName ? <p><strong>{fileName}</strong></p> : null}
         {warning ? <p className="warning">{warning}</p> : null}
         {error ? <p className="warning">{error}</p> : null}
-      </section>
+      </div>
 
-      <section className="result" aria-live="polite">
+      <div className="result" aria-live="polite">
         {!result ? <p className="empty-state">{content.emptyState}</p> : null}
         {result ? (
           <>
@@ -128,11 +126,9 @@ export function ListQualityChecker({ locale, dictionary }: { locale: Locale; dic
             <ul className="clean-list">
               {dictionary.listQuality.actions[result.band].map((action) => <li key={action}>{action}</li>)}
             </ul>
-
-            <ToolkitCtas dictionary={dictionary} content={content} />
           </>
         ) : null}
-      </section>
-    </div>
+      </div>
+    </section>
   );
 }
