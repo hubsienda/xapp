@@ -25,7 +25,7 @@ function TextCard({ title, items }: { title: string; items: string[] }) {
   );
 }
 
-export function ToolkitCtas({ locale, dictionary, content }: { locale: Locale; dictionary: Dictionary; content: ToolPageContentMap[ToolPageKey] }) {
+export function ToolkitCtas({ locale = siteConfig.defaultLocale, dictionary, content }: { locale?: Locale; dictionary: Dictionary; content: ToolPageContentMap[ToolPageKey] }) {
   const firstProduct = dictionary.products[content.primaryProduct];
   const secondProduct = dictionary.products[content.secondaryProduct];
 
