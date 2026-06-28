@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { siteConfig } from "@/config/site";
 import type { Dictionary } from "@/i18n/dictionaries";
+import type { Locale } from "@/i18n/locales";
 import type { ToolPageContentMap, ToolPageKey } from "@/i18n/toolPageContent";
 
 export function ToolPageHero({ content }: { content: ToolPageContentMap[ToolPageKey] }) {
@@ -24,33 +25,43 @@ function TextCard({ title, items }: { title: string; items: string[] }) {
   );
 }
 
-export function ToolkitCtas({ dictionary, content }: { dictionary: Dictionary; content: ToolPageContentMap[ToolPageKey] }) {
+export function ToolkitCtas({ locale, dictionary, content }: { locale: Locale; dictionary: Dictionary; content: ToolPageContentMap[ToolPageKey] }) {
   const firstProduct = dictionary.products[content.primaryProduct];
-  const bundleProduct = dictionary.products[content.bundleProduct];
+  const secondProduct = dictionary.products[content.secondaryProduct];
 
   return (
-    <div className="cta-grid">
-      <article className="toolkit-cta featured-toolkit">
-        <h3>{firstProduct.name}</h3>
-        <p>{content.primaryCta}</p>
-        <Link className="button" href={siteConfig.purchaseUrls[content.primaryProduct]} target="_blank" rel="noreferrer">
-          {firstProduct.button}
-        </Link>
-      </article>
-      <article className="toolkit-cta">
-        <h3>{bundleProduct.name}</h3>
-        <p>{content.bundleCta}</p>
-        <Link className="button secondary" href={siteConfig.purchaseUrls[content.bundleProduct]} target="_blank" rel="noreferrer">
-          {bundleProduct.button}
-        </Link>
-      </article>
-    </div>
+    <section className="product-cta-section">
+      <div className="cta-grid">
+        <article className="toolkit-cta featured-toolkit">
+          <p className="badge">{firstProduct.subtitle}</p>
+          <h3>{firstProduct.name}</h3>
+          <p>{content.primaryCta}</p>
+          <p className="secondary-line">{firstProduct.forWhom}</p>
+          <Link className="button" href={siteConfig.purchaseUrls[locale][content.primaryProduct]} target="_blank" rel="noreferrer">
+            {firstProduct.button}
+          </Link>
+        </article>
+        <article className="toolkit-cta">
+          <p className="badge">{secondProduct.subtitle}</p>
+          <h3>{secondProduct.name}</h3>
+          <p>{content.secondaryCta}</p>
+          <p className="secondary-line">{secondProduct.forWhom}</p>
+          <Link className="button secondary" href={siteConfig.purchaseUrls[locale][content.secondaryProduct]} target="_blank" rel="noreferrer">
+            {secondProduct.button}
+          </Link>
+        </article>
+      </div>
+    </section>
   );
 }
 
-export function ToolPageSections({ dictionary, content }: { dictionary: Dictionary; content: ToolPageContentMap[ToolPageKey] }) {
+export function ToolPageSections({ locale, dictionary, content }: { locale: Locale; dictionary: Dictionary; content: ToolPageContentMap[ToolPageKey] }) {
   return (
     <section className="section tool-info-stack">
+      <article className="info-card next-card">
+        <h2>{content.meaningTitle}</h2>
+        <p>{content.meaningText}</p>
+      </article>
       <div className="info-grid">
         <TextCard title={content.whatChecksTitle} items={content.whatChecks} />
         <TextCard title={content.whatNotTitle} items={content.whatNot} />
@@ -60,7 +71,8 @@ export function ToolPageSections({ dictionary, content }: { dictionary: Dictiona
           <p>{content.nextText}</p>
         </article>
       </div>
-      <ToolkitCtas dictionary={dictionary} content={content} />
+      <ToolkitCtas locale={locale} dictionary={dictionary} content={content} />
+      <p className="privacy-note">{content.privacyNote}</p>
     </section>
   );
 }
