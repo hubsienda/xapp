@@ -5,9 +5,9 @@
   --muted: #64748b;
   --line: #e5e7eb;
   --strong: #1f2937;
-  --accent: #0099ff;
-  --accent-dark: #007acc;
-  --accent-soft: #eef8ff;
+  --accent: #6600ff;
+  --accent-dark: #4f00cc;
+  --accent-soft: #f3edff;
   --soft: #f3f4f6;
   --danger: #991b1b;
   --radius: 12px;
@@ -100,7 +100,7 @@ p { margin-top: 0; }
 .field { display: grid; gap: 7px; margin-bottom: 14px; }
 label, legend { color: var(--strong); font-weight: 800; }
 input, select, textarea { width: 100%; border: 1px solid var(--line); background: white; border-radius: 8px; padding: 11px 12px; color: var(--text); }
-input:focus, select:focus, textarea:focus { border-color: var(--accent); outline: 3px solid rgba(0, 153, 255, 0.12); }
+input:focus, select:focus, textarea:focus { border-color: var(--accent); outline: 3px solid rgba(102, 0, 255, 0.12); }
 textarea { min-height: 140px; resize: vertical; }
 fieldset { border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; margin: 0 0 16px; }
 .check-row, .radio-row { display: flex; gap: 9px; align-items: flex-start; margin: 10px 0; color: var(--muted); }
@@ -122,7 +122,7 @@ pre.output { white-space: pre-wrap; background: #1f2937; color: white; border-ra
 .cta-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
 .product-cta-section { margin-top: 2px; }
 .toolkit-cta { background: #ffffff; }
-.featured-toolkit { border-color: rgba(0, 153, 255, 0.35); }
+.featured-toolkit { border-color: rgba(102, 0, 255, 0.35); }
 .secondary-line, .product-subtitle { font-size: 0.95rem; color: var(--muted); }
 .product-card h2 { margin-top: 10px; }
 
