@@ -25,9 +25,9 @@ export const siteConfig = {
     }
   },
   footerOwnership: {
-    en: "A browser-based business list utility by Sienda Ltd.",
-    es: "Una utilidad en el navegador para listas de empresas de Sienda Ltd.",
-    it: "Uno strumento nel browser per liste aziendali di Sienda Ltd."
+    en: "A browser-based business list utility by",
+    es: "Una utilidad en el navegador para listas de empresas de",
+    it: "Uno strumento nel browser per liste aziendali di"
   }
 } as const;
 
