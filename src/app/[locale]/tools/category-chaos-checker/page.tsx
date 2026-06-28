@@ -27,7 +27,7 @@ export default async function CategoryChaosPage({ params }: { params: Promise<{ 
     <main className="main">
       <ToolPageHero content={content} />
       <CategoryChaosChecker locale={safeLocale} dictionary={d} />
-      <ToolPageSections dictionary={d} content={content} />
+      <ToolPageSections locale={safeLocale} dictionary={d} content={content} />
     </main>
   );
 }
