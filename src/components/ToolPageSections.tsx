@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { siteConfig } from "@/config/site";
+import { productDisplayCopy, productLinks, secondaryBuyerCtaLine } from "@/config/products";
 import type { Dictionary } from "@/i18n/dictionaries";
 import type { Locale } from "@/i18n/locales";
 import type { ToolPageContentMap, ToolPageKey } from "@/i18n/toolPageContent";
@@ -25,28 +25,30 @@ function TextCard({ title, items }: { title: string; items: string[] }) {
   );
 }
 
-export function ToolkitCtas({ locale = siteConfig.defaultLocale, dictionary, content }: { locale?: Locale; dictionary: Dictionary; content: ToolPageContentMap[ToolPageKey] }) {
-  const firstProduct = dictionary.products[content.primaryProduct];
-  const secondProduct = dictionary.products[content.secondaryProduct];
+export function ToolkitCtas({ locale, content }: { locale: Locale; dictionary?: Dictionary; content: ToolPageContentMap[ToolPageKey] }) {
+  const firstProduct = productDisplayCopy[locale][content.primaryProduct];
+  const secondProduct = productDisplayCopy[locale][content.secondaryProduct];
 
   return (
     <section className="product-cta-section">
       <div className="cta-grid">
         <article className="toolkit-cta featured-toolkit">
-          <p className="badge">{firstProduct.subtitle}</p>
+          <p className="badge">{firstProduct.badge}</p>
           <h3>{firstProduct.name}</h3>
+          <p className="price-line">{firstProduct.price}</p>
           <p>{content.primaryCta}</p>
-          <p className="secondary-line">{firstProduct.forWhom}</p>
-          <Link className="button" href={siteConfig.purchaseUrls[locale][content.primaryProduct]} target="_blank" rel="noreferrer">
+          <p className="secondary-line">{firstProduct.bestFor}</p>
+          <Link className="button" href={productLinks[locale][content.primaryProduct]} target="_blank" rel="noreferrer">
             {firstProduct.button}
           </Link>
         </article>
-        <article className="toolkit-cta">
-          <p className="badge">{secondProduct.subtitle}</p>
+        <article className="toolkit-cta secondary-toolkit">
+          <p className="badge">{secondProduct.badge}</p>
           <h3>{secondProduct.name}</h3>
-          <p>{content.secondaryCta}</p>
-          <p className="secondary-line">{secondProduct.forWhom}</p>
-          <Link className="button secondary" href={siteConfig.purchaseUrls[locale][content.secondaryProduct]} target="_blank" rel="noreferrer">
+          <p className="price-line">{secondProduct.price}</p>
+          <p>{secondaryBuyerCtaLine[locale]}</p>
+          <p className="secondary-line">{secondProduct.bestFor}</p>
+          <Link className="button secondary" href={productLinks[locale][content.secondaryProduct]} target="_blank" rel="noreferrer">
             {secondProduct.button}
           </Link>
         </article>
