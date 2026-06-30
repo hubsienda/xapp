@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { productKeys, siteConfig } from "@/config/site";
+import { productDisplayCopy, productKeys, productLinks } from "@/config/products";
+import { siteConfig } from "@/config/site";
 import { getDictionary } from "@/i18n/dictionaries";
 import { isLocale, locales } from "@/i18n/locales";
 
@@ -28,15 +29,15 @@ export default async function ToolkitsPage({ params }: { params: Promise<{ local
       <p className="notice section">{d.toolkits.bundleNote}</p>
       <section className="product-grid section two-product-grid">
         {productKeys.map((key) => {
-          const product = d.products[key];
-          const url = siteConfig.purchaseUrls[safeLocale][key];
+          const product = productDisplayCopy[safeLocale][key];
+          const url = productLinks[safeLocale][key];
           return (
             <article className="card product-card" key={key}>
-              <p className="badge">{product.price}</p>
+              <p className="badge">{product.badge}</p>
               <h2>{product.name}</h2>
-              <p className="product-subtitle">{product.subtitle}</p>
+              <p className="price-line">{product.price}</p>
               <p>{product.description}</p>
-              <p><strong>{product.forWhom}</strong></p>
+              <p><strong>{product.bestFor}</strong></p>
               <p>{product.includes}</p>
               <Link className="button" href={url} target="_blank" rel="noreferrer">
                 {product.button}
