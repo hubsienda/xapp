@@ -3,6 +3,12 @@ import { siteConfig } from "@/config/site";
 import type { Dictionary } from "@/i18n/dictionaries";
 import type { Locale } from "@/i18n/locales";
 
+const rightsLine: Record<Locale, string> = {
+  en: "All rights reserved.",
+  es: "Todos los derechos reservados.",
+  it: "Tutti i diritti riservati."
+};
+
 export function Footer({ locale, dictionary }: { locale: Locale; dictionary: Dictionary }) {
   return (
     <footer className="footer">
@@ -18,7 +24,7 @@ export function Footer({ locale, dictionary }: { locale: Locale; dictionary: Dic
         </nav>
       </div>
       <div className="footer-legal">
-        © 2026 <a href="https://sienda.co.uk" target="_blank" rel="noreferrer">Sienda Ltd.</a> All rights reserved.<br />
+        © 2026 <a href="https://sienda.co.uk" target="_blank" rel="noreferrer">Sienda Ltd.</a> {rightsLine[locale]}<br />
         Company No. 08194971 • Registered in England &amp; Wales
       </div>
     </footer>
