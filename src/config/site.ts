@@ -1,4 +1,7 @@
+import { productKeys, productLinks, productPrices, type ProductKey } from "@/config/products";
 import type { Locale } from "@/i18n/locales";
+
+export { productKeys, productLinks, productPrices, type ProductKey };
 
 export const siteConfig = {
   name: "QBX.app",
@@ -10,24 +13,12 @@ export const siteConfig = {
     es: "Comprueba tu lista de empresas antes de que te cueste más dinero.",
     it: "Controlla la tua lista di aziende prima che ti costi altro denaro."
   },
-  purchaseUrls: {
-    en: {
-      survivalBundle: "https://siendamedia.com",
-      buyerProtection: "https://siendamedia.com"
-    },
-    es: {
-      survivalBundle: "https://siendamedia.com",
-      buyerProtection: "https://siendamedia.com"
-    },
-    it: {
-      survivalBundle: "https://siendamedia.com",
-      buyerProtection: "https://siendamedia.com"
-    }
-  },
+  purchaseUrls: productLinks,
+  productPrices,
   footerOwnership: {
     en: "A browser-based business list utility by",
-    es: "Una utilidad en el navegador para listas de empresas de",
-    it: "Uno strumento nel browser per liste aziendali di"
+    es: "Una utilidad de navegador para listas de empresas de",
+    it: "Uno strumento browser-based per liste aziendali di"
   }
 } as const;
 
@@ -39,7 +30,3 @@ export const toolRoutes = [
 ] as const;
 
 export type ToolSlug = (typeof toolRoutes)[number];
-
-export const productKeys = ["survivalBundle", "buyerProtection"] as const;
-
-export type ProductKey = (typeof productKeys)[number];
