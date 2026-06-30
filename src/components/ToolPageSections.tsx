@@ -2,6 +2,7 @@ import Link from "next/link";
 import { productDisplayCopy, productLinks, secondaryBuyerCtaLine } from "@/config/products";
 import type { Dictionary } from "@/i18n/dictionaries";
 import type { Locale } from "@/i18n/locales";
+import { privacyPromise } from "@/i18n/privacyPromise";
 import type { ToolPageContentMap, ToolPageKey } from "@/i18n/toolPageContent";
 
 export function ToolPageHero({ content }: { content: ToolPageContentMap[ToolPageKey] }) {
@@ -74,7 +75,7 @@ export function ToolPageSections({ locale, dictionary, content }: { locale: Loca
         </article>
       </div>
       <ToolkitCtas locale={locale} dictionary={dictionary} content={content} />
-      <p className="privacy-note">{content.privacyNote}</p>
+      <p className="privacy-note">{privacyPromise[locale]}</p>
     </section>
   );
 }
